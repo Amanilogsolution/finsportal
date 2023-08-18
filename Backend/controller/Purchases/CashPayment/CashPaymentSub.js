@@ -45,7 +45,7 @@ const InsertCashSubPayment = async (req, res) => {
         res.status(201).json({ result: "Added successfully" })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -59,7 +59,7 @@ const GetSubCashPayment = async (req, res) => {
         res.status(200).json({ data: result.recordset })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 
 }

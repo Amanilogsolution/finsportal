@@ -1409,7 +1409,7 @@ export const FilterBillReport = async (org, startDate, lastDate, vendid) => {
 }
 
 export const GetSaveBill = async (org) => {
-    const url = `https://finsbackend.awlinternational.com/api/GetSaveBill`
+    const url = `http://localhost:3008/api/GetSaveBill`
     return axios.post(url, { org }).then(response => response.data).catch(error => console.log(error));
 }
 

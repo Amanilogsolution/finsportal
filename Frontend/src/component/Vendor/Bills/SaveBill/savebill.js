@@ -19,7 +19,6 @@ const BillSave = () => {
 
       const result = await GetSaveBill(org)
       setData(result)
-      console.log(result)
       setLoading(true)
       fetchRoles()
     }

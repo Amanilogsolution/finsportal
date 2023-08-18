@@ -11,7 +11,7 @@ const AllCashPayment = async (req, res) => {
         res.status(200).json({ result: result.recordset })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -38,7 +38,7 @@ const InsertCashPayment = async (req, res) => {
         res.status(201).json({ result: "Added successfully" })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -52,7 +52,7 @@ const GetCashPayment = async (req, res) => {
         res.status(200).json({ data: result.recordset[0] })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -69,7 +69,7 @@ const filterCashPaymentReport = async (req, res) => {
         res.status(200).json({ data: result.recordset })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

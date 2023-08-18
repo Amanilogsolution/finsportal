@@ -26,7 +26,7 @@ const inserSubRecurringBill = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -41,7 +41,7 @@ const GetSubRecurringBill = async (req, res) => {
         res.send(items.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -60,7 +60,7 @@ const UpdateSaveSubBillToPost = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 module.exports = { inserSubRecurringBill, GetSubRecurringBill,UpdateSaveSubBillToPost }

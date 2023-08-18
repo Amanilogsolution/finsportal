@@ -21,7 +21,7 @@ const InsertDebitNote = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -55,7 +55,7 @@ const UpdateDebitNote = async (req, res) => {
         res.send('Updated')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -67,7 +67,7 @@ const AllDNData = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -83,7 +83,7 @@ const ChangeDNStatus = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -96,7 +96,7 @@ const getDNData = async (req, res) => {
         res.send(result.recordset[0]) 
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -125,7 +125,7 @@ const InsertSubDebitNote = async (req, res) => {
         res.send('Added')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -140,7 +140,7 @@ const SelectDnSubDetails = async (req,res) => {
         res.send(result.recordset) 
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -165,7 +165,7 @@ const filterDN = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

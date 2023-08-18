@@ -85,7 +85,7 @@ const InsertVendor = async (req, res) => {
         res.send(result.rowsAffected)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -97,7 +97,7 @@ const Vendor = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -111,7 +111,7 @@ async function DeleteVendor(req, res) {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -123,7 +123,7 @@ async function showVendor(req, res) {
         const result = await sql.query(`Select * from ${org}.dbo.tbl_new_vendor with (nolock) where sno = ${sno}`)
         res.send(result.recordset[0])
     } catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -155,7 +155,7 @@ async function UpdateVendor(req, res) {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -179,7 +179,7 @@ const VendorMastid = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -254,7 +254,7 @@ const ActiveVendor = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 
 }
@@ -268,7 +268,7 @@ const ActiveSelectedVendor = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 
 }

@@ -68,7 +68,7 @@ const InsertRecurringBill = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -113,7 +113,7 @@ const getRecurringBill = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -128,7 +128,7 @@ const GetRecurringBillData = async (req, res) => {
         res.send(Bill.recordset[0])
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -223,7 +223,7 @@ const DeleteRecurringBill = async (req, res) => {
         res.send('done')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 

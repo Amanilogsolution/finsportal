@@ -29,7 +29,7 @@ const InsertPurchaseorder = async (req, res) => {
         res.send('Insert')
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -51,21 +51,20 @@ const InsertSubPurchaseorder = async (req, res) => {
         res.send("Insert")
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
 const getPoDetailsVendor = async (req, res) => {
     const org = req.body.org;
     const vendor_id = req.body.vendor_id;
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select * from ${org}.dbo.tbl_purchase_order WHERE  vendor_id = '${vendor_id}'`)
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -77,7 +76,7 @@ const getSavePO = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -100,7 +99,7 @@ const filterPO = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -113,7 +112,7 @@ const getPoDetailsPreview = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -126,7 +125,7 @@ const getSubPoDetailsPreview = async (req, res) => {
         res.send(result.recordset)
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -149,25 +148,21 @@ const EditPurchaseOrder = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
 const getPoData = async (req, res) => {
     const org = req.body.org;
     const po_number = req.body.po_number;
-
     try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`select *, convert(varchar(15), po_date, 121) as podate from ${org}.dbo.tbl_purchase_order tpo  where po_number = '${po_number}'`)
         res.send(result.recordset)
-
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
-
-
 }
 
 

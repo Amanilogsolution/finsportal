@@ -19,7 +19,7 @@ const InsertBill = async (req, res) => {
     const payment_term = req.body.payment_term;
     const due_date = req.body.due_date;
     const emp_id = req.body.emp_id;
-    
+
     const amt_paid = req.body.amt_paid;
     const amt_balance = req.body.amt_balance;
     const amt_booked = req.body.amt_booked;
@@ -38,7 +38,7 @@ const InsertBill = async (req, res) => {
     const gst_location_id = req.body.gst_location_id;
     const discount = req.body.discount;
     const bill_url = req.body.bill_url;
-    
+
     const userid = req.body.userid;
     const uuid = uuidv1()
 
@@ -67,7 +67,7 @@ const InsertBill = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -97,7 +97,7 @@ const FilterBillReport = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -105,11 +105,17 @@ const getSaveBill = async (req, res) => {
     const org = req.body.org;
     try {
         await sql.connect(sqlConfig)
-        const result = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate, convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) where flagsave='save' order by sno desc`)
-        res.send(result.recordset)
+        sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate, convert(varchar(15),bill_date,121) as billdate from ${org}.dbo.tbl_bill with (nolock) where flagsave='save' order by sno desc`, (err, result) => {
+            if (!err) {
+                res.status(200).send(result.recordset)
+            }
+            else {
+                res.status(500).send('Internal Server Error')
+            }
+        })
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -133,7 +139,7 @@ const GetBillVendorID = async (req, res) => {
     try {
         await sql.connect(sqlConfig)
         const Bill = await sql.query(`select *,convert(varchar(15),voucher_date,121) as voudate from ${org}.dbo.tbl_bill where vend_id='${vendor_id}'`)
-        res.send(Bill.recordset)
+        res.status(200).send(Bill.recordset)
     }
     catch (err) {
         res.send(err)
@@ -148,14 +154,14 @@ const UpdateSaveBillToPost = async (req, res) => {
         await sql.connect(sqlConfig)
         const result = await sql.query(` update ${org}.dbo.tbl_bill set vourcher_no='${new_voucher_no}' ,flagsave='post' WHERE vourcher_no='${voucher_no}'`)
         if (result.rowsAffected > 0) {
-            res.send('Updated')
+            res.status(200).send('Updated')
         }
         else {
-            res.send('Error')
+            res.status(500).send('Error')
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
@@ -166,7 +172,7 @@ const filterInvoicebyDN = async (req, res) => {
     const vendorid = req.body.vendorid;
     const locationid = req.body.locationid;
     const bill_no = req.body.bill_no;
-    
+
     try {
         await sql.connect(sqlConfig)
         if (vendorid == 'all') {
@@ -181,17 +187,17 @@ const filterInvoicebyDN = async (req, res) => {
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(500).send(err)
     }
 }
 
-const UpdateBillDNFlag = async(req,res) =>{
+const UpdateBillDNFlag = async (req, res) => {
     const org = req.body.org;
     const dnflag = req.body.dnflag;
     const dn_amt = req.body.dn_amt;
     const vourcher_no = req.body.vourcher_no;
 
-    try{
+    try {
         await sql.connect(sqlConfig)
         const result = await sql.query(`update ${org}.dbo.tbl_bill set dnflag='${dnflag}' ,dn_amt='${dn_amt}' WHERE vourcher_no='${vourcher_no}'`)
         if (result.rowsAffected > 0) {
@@ -201,12 +207,12 @@ const UpdateBillDNFlag = async(req,res) =>{
             res.send('Database Error')
         }
     }
-    catch(err){
-        res.send('Error: ' + err)
+    catch (err) {
+        res.status(500).send('Error: ' + err)
     }
 
 }
 
 
 
-module.exports = { InsertBill,FilterBillReport,getSaveBill,GetBillData,UpdateSaveBillToPost,GetBillVendorID,filterInvoicebyDN,UpdateBillDNFlag } 
+module.exports = { InsertBill, FilterBillReport, getSaveBill, GetBillData, UpdateSaveBillToPost, GetBillVendorID, filterInvoicebyDN, UpdateBillDNFlag } 
